@@ -1,0 +1,42 @@
+% User Commands.
+
+\newcommand{\rnd}{\partial}
+\newcommand{\dif}{\mathrm{d}\.}
+
+\newcommand{\dq}[2]{\frac{\mathrm{d} #1 }{\mathrm{d} #2}}
+\newcommand{\hdq}[3]{\frac{\mathrm{d}^{#3} #1 }{\mathrm{d} #2}^{#3}}
+\newcommand{\pdq}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\hpdq}[3]{\frac{\partial^{#3} #1}{\partial #2 ^{#3}}}
+
+\newcommand{\iprod}[1]{\left\langle #1\right\rangle}
+\newcommand{\nm}[1]{\left\lVert#1\right\rVert}
+
+\newcommand{\ex}[1]{\mathbb{E}[#1]}
+
+\newcommand{\re}{\mathbb{R}}
+\newcommand{\ra}{\mathbb{Q}}
+\newcommand{\zah}{\mathbb{Z}}
+\newcommand{\neu}{\mathbb{N}}
+\newcommand{\s}{\mathbb{S}}
+\newcommand{\p}{\mathbb{P}}
+\newcommand{\f}{\mathscr{F}}
+
+
+\newcommand{\mc}{\color{BlueViolet}}
+\renewcommand{\qedsymbol}{\mc $\blacksquare$}
+
+\renewcommand{\ge}{\geqslant}
+\renewcommand{\le}{\leqslant}
+
+% Theorems, etc. Environment Settings.
+
+\theoremstyle{definition}
+\newtheorem{problem}{\mc Problem}
+\newtheorem{definition}{\mc Definition}
+\newtheorem{theorem}{\mc Theorem}
+\newtheorem*{example}{\mc Example}
+\newtheorem*{remark}{\mc Remark}
+\newtheorem{lemma}{\mc Lemma}
+\newtheorem{ass}{\mc Assumption}
+
+\newenvironment{myenume}{\begin{enumerate}[(i).]\setlength{\itemsep}{0pt}\setlength{\itemindent}{1em}}{\end{enumerate}}

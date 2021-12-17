@@ -3,3 +3,10 @@ This is the homework sets for the USTC MATH6424P, Martingales and Stochastic Int
 
 # Contents
 
+## Homework 1
+
+On class test. In this homework, we briefly review the construction of stochastic integration and proof of ito's formula.
+
+## Homework 2
+
+In this homework, we briefly reviewed the proof of Yamada-Watanabe theorem. 
