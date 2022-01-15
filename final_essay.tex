@@ -1,0 +1,376 @@
+\documentclass[8pt,onesided]{article}
+
+\input{pkgs}
+\input{cmds}
+
+\bibliographystyle{apalike}
+
+\globalcolorstrue
+
+\titleformat{\section}{\color{BlueViolet}\normalfont\large\bf}{\color{BlueViolet}\S\thesection}{1em}{}
+\titleformat{\subsection}{\color{BlueViolet}\normalfont\bf}{\color{BlueViolet}\thesubsection}{1em}{}
+
+\geometry{left=2.0cm, right=2.0cm, top=2.5cm, bottom=2.5cm}
+
+\fancypagestyle{style}{
+    \chead{Final Essay of Martingale Theory and Stochastic Integration}
+    \renewcommand{\headrulewidth}{.5pt}  
+    \lhead{}
+    \rhead{}
+    \fancyfoot[L]{\color{gray}Beining Wu - Fall 2021}
+    \fancyfoot[R]{\thepage}
+    \fancyfoot[C]{}
+    }
+\pagestyle{style}
+
+\newcommand{\hl}[1]{\textbf{\color{MyRed}#1}}
+
+
+\begin{document}
+
+{
+\title{\color{BlueViolet} On the Uniqueness and Existence of Stochastic Differential Equations with Infinite Delay and L\'evy Noise\vspace*{.5em}\\  \large Final Essay of Martingale Theory and Stochastic Integration}
+\author{Beining Wu\footnote{mail: \texttt{andrewwu@mail.ustc.edu.cn}, Student ID: PB19151833}}
+\maketitle
+}
+
+\begin{abstract}
+    In this essay we are going to study one type of \textbf{Stochastic Differential Delay Equation (SDDE)}, driven with Brownian motion and Poisson random measure and polynomial growth. In section \ref{ss2}, we will give our formal definition of the uniqueness and existence in sense of this special equation. In section \ref{ss3} we will introduce some assumptions and the main result of our essay. In section \ref{ss4} we use the assumptions before to give a formal proof of the main theorem.
+\end{abstract}
+
+\section{Introduction, Problem Setting}
+
+The equation we are going to study can be formulated as
+\begin{equation}
+    \label{sdde}
+    \dd X_t=f(X_t)+\int_{ -\infty}^0 X_{t+r} g(r) \dd r \dd t+\sigma(t,X_t)\dd B_t+\int_Z b(t, X_{t-},z)\tilde N_p(\dd z \dd t).
+\end{equation}
+
+This equation differs from the classical SDE which we have concerned before, because of involving the delay term and Poisson random noise. Specifically, the equation \ref{sdde} involves the integral memory term which preserve the whole past information. Consequently this results in more difficult analysis.
+
+Here we present with full problem setting of the equation \ref{sdde}. Assume that we have fixed filtered space $(\Omega, \f, (\f_t)_{t\ge 0},\p)$. Let $B=(B_t)_{t\ge 0}$ be the standard Brownian motion on the space defined above. Let the measure space $(Z, \B, \nu)$ be the base of our adapted stationary Poisson point process $p$ with induced Poisson random measure $N_p$. Denote the compensated Poisson process as
+\begin{equation*}
+    \tilde N_p:=\hat N_p(\dd z \dd t)- \dd t \nu (\dd z)
+\end{equation*}
+
+Moreover, the equation \ref{sdde} is given with the initial data $X_0=\xi$, by this we actually means $\xi=\xi_t \in L^2((-\infty,0], \re)$, a deterministic function which is actually the path before $t=0$. 
+
+Additionally, we assume that $\sigma$ and $b$ are global Lipschitz function, while $f,g:\re \to \re$ are non-random function. And $f$ is assumed to be a polynomial.
+
+\paragraph{Problem} On what additional conditions can we deduce the uniqueness and existence result of the equation \ref{sdde}?
+
+We're going to give a possible solution of this problem in the following sections. 
+
+\section{Definition of Uniqueness and Existence}
+\label{ss2}
+
+To begin with, we shall clarify the definition of existence and uniqueness for this special equation.
+
+\begin{definition}
+[Pathwise Uniqueness] For fixed set-up $(\Omega,\f, (\f_t )_{t\ge 0},\p,B,N)$, if there are two semimartingales $Y$ and $Y'$ that solves the equation \ref{sdde}, then they are indistinguishable, i.e., a.s. with same trajectory.
+\end{definition}
+
+Furthermore, since the equation differs from the usual Brownian-motion driven equation with jumps, we shall introduce some additional definitions of solutions.
+
+\begin{definition}
+[Global and Local Solution] For fixed set-up $(\Omega,\f, (\f_t )_{t\ge 0},\p,B,N)$, we say the $\f_t$-adapted semimartingale $X$ is the \textbf{global solution} of the equation \ref{sdde} if we have
+\begin{enumerate}
+    \item $X_t=\xi_t,\,\forall t\le 0$.
+    \item $\p$-a.s. $X_t$ is càdlàg.
+    \item $\forall t\ge 0$ we have
+%remains
+\begin{equation*}
+    \p\text{-a.s.} \quad \left\{
+    \begin{aligned}
+        &\int_0^t |\sigma(s,X_s)|^2 \dd s<\infty\\
+       & \int_0^t |f(X_s)| \dd s<\infty\\
+       & \int_0^t \int_Z |b(s,X_s,z)|^2 \nu(\dd z)\dd s<\infty\\
+    \end{aligned}
+    \right.
+\end{equation*}
+    \item $\p$-a.s., the following equation is true.
+\end{enumerate}
+\begin{equation*}
+    X_t= \xi_0+\int_0^t f(X_s)\dd s +\int_0^t \int_{-\infty}^0 X_{s+r} g(r)\dd r \dd s +\int_0^t \sigma(s, X_s)\dd B_s +\int_0^t \int_Z b(s, X_{s-},z)\tilde N_p(\dd z \dd s), \quad \forall t\ge0.
+\end{equation*}
+
+Moreover, if this equation is true only before the stopping time $\tau$, i.e.,
+\begin{equation*}
+    X_{t\wedge\tau}= \xi_0+\int_0^{t\wedge\tau} f(X_s)\dd s +\int_0^{t\wedge\tau} \int_{-\infty}^0 X_{s+r} g(r)\dd r \dd s +\int_0^{t\wedge\tau} \sigma(s, X_s)\dd B_s +\int_0^{t\wedge\tau} \int_Z b(s, X_{s-},z)\tilde N_p(\dd z \dd s), \quad \forall  t\ge0.
+\end{equation*}
+Then we say that the couple $(X,\tau )$ is said to be the local solution of the equation \ref{sdde}. If $\tau$ is the explosion time of $X$ and there is a increasing sequence of stopping time $\tau_n\nearrow \tau$, and $(X,\tau_n)$ are all the local solutions, then $(X,\tau)$ is said to be the maximal local solution.
+\end{definition}
+
+
+\section{Main Result}
+\label{ss3}
+
+\begin{ass}
+    The following assumptions may be critical in our proof.
+\begin{enumerate}[{A}.1]
+    \item (Global Lipschitz of $\sigma$ and $b$) In the following context, we always regard $\sigma$ and $b$ to be globally Lipschitz continuous, i.e.
+\begin{equation*}
+|\sigma(s,x)-\sigma(s,y)|\wedge |b(s,x,z)-b(s,y,z)|\le L|x-y|, \quad\forall x,y\in \re, z\in Z, s\in \re.
+\end{equation*}
+     \item (Linear Growth) $f$ is a linear function, $f(x)=a_0+a_1x$, and without loss of generality $|a_1|\le L$. This implies that $f$ is also $L$ Lipschitz function.
+     \item (Nonlinear Polynomial Growth) The order of $f$ is no less than $2$, this means $f$ is locally Lipschitz.
+     \item (Integrability) We assume $g\in L^2((-\infty,0],\re)$.
+\end{enumerate}
+\end{ass}
+
+Based on the aforementioned assumptions, we present our main results in this essay.
+
+\begin{theorem}[Global]
+Under assumptions A.1, A.2 and A.4, the equation \ref{sdde} exists a unique global solution(modulo indistinguishable).
+\end{theorem}
+
+\begin{theorem}
+[Local] Under assumptions A.1, A.3 and A.4, the equation \ref{sdde} exists a unique maximal local solution.
+\end{theorem}
+
+
+\section{Proof of Main Result}
+\label{ss4}
+
+
+\subsection{Uniqueness}
+
+The first part concerns with the uniqueness. Let $X$ and $Y$ be the $\tau$-localized solution, on the finite interval $[0,T]$. Moreover, define the stopping time
+\begin{equation*}
+    \tau_n =\tau \wedge \{s: |X_s|\vee|Y_s|\ge n \}.
+\end{equation*}
+Define $X^n_t=X_{t\wedge \tau_n}$ and $Y^n_t=Y_{t\wedge \tau_n}$. Consider the square expectation of the difference
+\begin{align*}
+    \e\big[(X^n_t -Y^n_t)^2\big]=& \e  \Bigg[\Big(
+    \int_0^t \big(f(X_s^Nn)-f(Y_s^n)\big)\dd s
+    +\int_0^t \int_{-\infty}^0 \big(X_{s+r}^n-Y_{s+r}^n\big) g(r)\dd r \dd s
+ +\int_0^t \big(\sigma(s, X^n_s)-\sigma(s, Y_s^n)\big)\dd B_s \\
+ &+\int_0^t \int_Z \big(b(s, X^n_{s-},z)-b(s, Y^n_{s-},z)\big)\tilde N_p(\dd z \dd s)\Big)^2\Bigg]
+\end{align*}
+By the basic arithmetic-square mean value inequality, 
+\begin{align*}
+    \text{RHS}\le& 4 \e \Big[\Big(\int_0^t \big(f(X_s^n)-f(Y_s^n)\big)\dd s\Big)^2\Big]+4\e \Big[\Big(\int_0^t \int_{-\infty}^0 \big(X_{s+r}^n-Y_{s+r}^n\big) g(r)\dd r \dd s\Big)^2\Big]\\
+    &+4\e\Big[\Big(\int_0^t \big(\sigma(s, X^n_s)-\sigma(s, Y_s^n)\big)\dd B_s \Big)^2\Big]+4\e\Big[\Big(\int_0^t \int_Z \big(b(s, X^n_{s-},z)-b(s, Y^n_{s-},z)\big)\tilde N_p(\dd z \dd s)\Big)^2\Big].
+\end{align*}
+We bound it by term. Under assumption A.1, the linear growth and global Lipschitz property is true and therefore the first term can be written as
+\begin{align*}
+    4 \e \Big[\Big(\int_0^t \big(f(X_s^n)-f(Y_s^n)\big)\dd s\Big)^2\Big]&\le 4\e\Big[ t\int_0^t\big(f(X_s^N)-f(Y_s^n)\big)^2\dd s \Big]\\
+    &\le 4TL^2 \e\Big[ \int_0^t  (X^n_s-Y^n_s)^2\dd s\Big].
+\end{align*}
+
+Now turn to the second term, which involves the past memory. Since both $X,Y$ solve the equation, they have identical past data before $t=0$. So
+\begin{align*}
+    4\e \Big[\Big(\int_0^t \int_{-\infty}^0 \big(X_{s+r}^n-Y_{s+r}^n\big) g(r)\dd r \dd s\Big)^2\Big]
+    =&4\e \Big[\Big(\int_0^t \int_{-s}^0 \big(X_{s+r}^n-Y_{s+r}^n\big) g(r)\dd r \dd s\Big)^2\Big]\\
+    \le&4\e \Big[\Big(\int_0^t \int_{0}^s \big(X_{r}^n-Y_{r}^n\big) g(r-s)\dd r \dd s\Big)^2\Big]\\
+    \le&4\e \Bigg[\Bigg(\int_0^t \Big(\int_{0}^s \big(X_{r}^n-Y_{r}^n\big)^2\dd r\Big)^{1/2}\Big(\int_{0}^s g(r-s)^2\dd r\Big)^{1/2} \dd s\Bigg)^2\Bigg]\\
+    \le&4\e \Bigg[\Bigg(\int_0^t \Big(\int_{0}^s \big(X_{r}^n-Y_{r}^n\big)^2\dd r\Big)^{1/2}\nm{g}_{L^2((-\infty,0])} \dd s\Bigg)^2\Bigg]\\
+    \le &4\nm{g}_{L^2((-\infty,0])}^2  T^2 \e  \Big[\int_0^t \big(X_{r}^n-Y_{r}^n\big)^2 \dd r\Big].
+\end{align*}
+
+For the third drift term, global Lipschitz continuity and standard Ito's isometry gives 
+\begin{align*}
+    4\e\Big[\Big(\int_0^t \big(\sigma(s, X^n_s)-\sigma(s, Y_s^n)\big)\dd B_s \Big)^2\Big]\le &
+    4\e\Big[ \int_0^t  \Big(\sigma(s,X^n_s)-\sigma(s,Y^n_s) \Big)^2 \dd s\Big]\\
+    \le& 4 \e \Big[ \int_0^t L^2 \big(X^n_s-Y^n_s\big)^2 \dd s \Big].
+\end{align*}
+
+And then comes to the jump term, 
+\begin{align*}
+    4\e\Big[\Big(\int_0^t \int_Z \big(b(s, X^n_{s-},z)-b(s, Y^n_{s-},z)\big)\tilde N_p(\dd z \dd s)\Big)^2\Big]\le&4L^2\e\Big[\int_0^t  \int_Z   \big(X^n_s-Y^n_s\big)^2 \nu(\dd z)\dd s  \Big]\\
+    \le& 4L^2\nu(Z) \e\Big[\int_Z   \big(X^n_s-Y^n_s\big)^2 \nu(\dd z)\dd s\Big].
+\end{align*}
+
+Let $h(t)=\e[(X^n_t-Y^n_t)^2]$, then combine the last four bounds to obtain
+\begin{equation*}
+    h(t)\le C_{T,g,L} \int_0^t h(s)\dd s, \quad t\le T.
+\end{equation*}
+By the Grownall's inequality, we now have
+\begin{equation*}
+    h(t)=0,\quad \forall t\le T.
+\end{equation*}
+Thus, any two solutions of the equation \ref{sdde} (could be both global or local) must be a.s. indistinguishable, thus we're done.
+
+\subsection{Global Existence}
+
+The second part concerns with the existence. It's based on the standard Picard approximation. Consider the class
+\begin{equation*}
+    H_T=\{h: \;h\text{ is }\f_t \text{-adapted and }\p\text{-a.s. càdlàg, with }h(0)=\xi\}.
+\end{equation*}
+And define the norm on $H_T$ as
+\begin{equation*}
+\nm{h}:=\e\big[ \sup_{s\le T} |h_s|^2\big].
+\end{equation*}
+
+Consider the linear operator $J:H_T\to H_T$,
+\begin{equation*}
+    h\mapsto Jh:=(Jh)_t=\xi_0+\int_0^t f(h_s)\dd s +\int_0^t \int_{-\infty}^0 h_{s+r} g(r)\dd r \dd s +\int_0^t \sigma(s, h_s)\dd B_s +\int_0^t \int_Z b(s, h_{s-},z)\tilde N_p(\dd z \dd s), \quad \forall T\ge t\ge0.
+\end{equation*}
+
+Then, if $\nm{h}_{H_T}<\infty$, then $\nm{Jh}_{H_T}<\infty$.
+
+%Remains
+
+On the other hand, if $h,h'\in H_T$, then we shall bound $\nm{Jh-Jh'}$ in the following sense.
+
+\begin{align*}
+\e\big[ \sup_{t\le T}(Jh_t-Jh'_t)^2\big]\le 4 \e\Bigg[ 
+\sup_{t\le T}\Big(\int_0^t \big(f(h_s)-f(h'_s)\big)\dd s \Big)^2
++\sup_{t\le T} \Big(\int_0^t\int_{-\infty}^0 \big(h_{s+r}-h'_{s+r}\big) g(r)\dd r \dd s\Big)^2\\
++\sup_{t\le T} \Big( \int_0^t \big(\sigma(s,h_s)-\sigma(s,h'_s)\big)\dd B_s\Big)
++ \sup_{t\le T}\Big(\int_0^t \int_Z \big(b(s, h_{s-},z)-b(s, h'_{s-},z)\big)\tilde N_p(\dd z \dd s)\Big)^2
+\Bigg].
+\end{align*}
+ Again we bound each term separately. For the first term
+\begin{align*}
+    4 \e\Bigg[ 
+        \sup_{t\le T}\Big(\int_0^t \big(f(h_s)-f(h'_s)\big)\dd s \Big)^2\Bigg]\le4T\e \Bigg[\int_0^T \big(f(h_s)-f(h'_s)\big)^2\dd s\Bigg]\\
+        \le 4T \e\Biggl[ \int_0^T L^2 \sup_{u\le s} \big(h'_u-h_u\big)^2 \dd s \Biggr].
+\end{align*}
+For the memory term.
+\begin{align*}
+4\e\Biggl[ \sup_{t\le T }\Biggl(  \int_0^t \int_{-\infty}^0 \bigl( h_{r+s} - h'_{r+s} \bigr)g(r)\dd r \dd s\Biggr)^2\Biggr]
+&\le
+4\e\Biggl[ \sup_{t\le T }\Biggl(  \int_0^t \int_{0}^s \bigl( h_{r} - h'_{r} \bigr)g(r-s)\dd r \dd s\Biggr)^2\Biggr]\\
+&\le4\e\Biggl[ \sup_{t\le T} \Biggl(   \int_0^t \bigl(\int_0^s (h_r - h'_r)^2\dd r   \bigr)^{1/2}\bigl(\int_0^s g^2(r-s)\dd r   \bigr)^{1/2} \dd s\Biggr)^2\Biggr]\\
+&\le4 \nm{g}_{L^2((-\infty,0])} \e \Biggl[ \sup_{t\le T} \int_0^t \biggl( \int_0^s  \big(h_r-h'_r\big)^2 \dd r \biggr)\dd s \Biggr]\\
+&\le 4\nm{g}_{L^2((-\infty,0])} \e \Biggl[ \int_0^T  T \sup_{r\le s}\big(
+    h_r -h'_r\big)^2\dd s \Biggr].
+\end{align*}
+For the drift term, we shall use the \hyperref[bdg]{Burkholder-Davis-Gundy inequality} to bound
+\begin{align*}
+    4\e \Biggl[\sup_{t\le T}\Big( \int_0^t \big(\sigma(s,h_s)-\sigma(s,h'_s)\big)\dd B_s\Big)^2\Biggr]\le& 4C_p\e \Biggl[\int_0^T \big(\sigma(s,h_s)-\sigma(s,h'_s)\big)^2 \dd s\Biggr]\\
+    \le& 4C_pL^2 \e\Biggl[ \int_0^T \sup_{u\le s}(h'_u-h_u)^2 \dd s \Biggr].
+\end{align*}
+And finally to the jump term, by the \hyperref[bdgg]{generalized Burkholder-Davis-Gundy inequality}, we have
+\begin{align*}
+    4\e\Biggl[ \sup_{t\le T}\Big(\int_0^t \int_Z \big(b(s, h_{s-},z)-b(s, h'_{s-},z)\big)\tilde N_p(\dd z \dd s)\Big)^2 \Biggr]
+    \le
+    4C'_p \e\Biggl[ \int_0^{T+}\int_Z \big(b(s, h_{s-},z)-b(s, h'_{s-},z) \big)^2N_p(\dd z\dd s)\Biggr]\\
+    \le
+     4C'_p\Biggl[ \int_0^T \int_ZL^2\big(h_s-h'_s\big)^2 \nu(\dd z)\dd s\Biggr]
+     \le
+     4C'_p L^2\nu(Z)\e\biggl[\int_0^T\big(h_s-h'_s\big)^2\dd s \biggr].
+\end{align*}
+Combine all the bounds above to get
+\begin{equation}
+    \label{diff}
+\e\biggl[ \sup_{t\le T} (Jh_t-Jh'_t)^2\biggr]\le C_{p,T,Z,L}\e\biggl[\int_0^T \sup_{u\le t}(h_u-h'_u)^2 \dd t\biggr].
+\end{equation}
+
+Now we construct a sequence, $h^n=Jh^{n-1}$, define
+\begin{equation*}
+    g_n(t)=\e\biggl[\sup_{s\le t}(h^n_s-h^{n-1}_s)^2\biggr].
+\end{equation*}
+By the estimation \ref{diff}, we have
+\begin{equation*}
+    g_n(t)\le C\int_0^t g_{n-1}(s)\dd s.
+\end{equation*}
+This inequality implies that
+\begin{equation*}
+    g_n(t)\le C_0 C^{n-1} \frac{t^{n-1}}{(n-1)!}.
+\end{equation*}
+In particular, we have $\sum_n g_n(T)^{1/2}<\infty$, which implies that
+\begin{equation*}
+    \p\text{-a.s.}\quad \sum_{n} \sup_{s\le T}|h_s^n-h_s^{n-1}| <\infty.
+\end{equation*}
+This means, $h^n$ converges uniformly to a limit $h$. \hyperref[ucd]{Theorem 3} implies that the limit process is (a.s.) càdlàg. And by a limit process we can prove that the limit is exactly the solution.
+
+\subsection{Localization}
+
+The following part is based on assumption A.1, A.3 and A.4, therefore the $f$ is only local Lipschitz. We shall prove the local result with a truncation technique.
+
+Define the truncated growth function
+\begin{equation*}
+    f_N(x)=f(\frac{|x|\wedge N}{|x|}x).
+\end{equation*}
+Since $f$ is a polynomial, $f_N$ is globally Lipschitz continuous with constant $L_N$. So, the global scenario implies that for fixed set-up, following equation
+\begin{equation*}
+    \dd X_t=f_N(X_t)+\int_{ -\infty}^0 X_{t+r} g(r) \dd r \dd t+\sigma(t,X_t)\dd B_t+\int_Z b(t, X_{t-},z)\tilde N_p(\dd z \dd t).
+\end{equation*}
+has unique global solution (up to indistinguishable). Note that before the stopping time $\tau_N:=\inf\{t:|X_t|\ge N\}$, the process $X_{t\wedge \tau_N}$ solves the equation \ref{sdde}. Hence $(X,\tau_N)$ is a local solution of equation \ref{sdde}.
+
+Furthermore, $\tau=\lim_{N} \tau_N$, is the explosion time. From the uniqueness part we know that $(X,\tau_N)$ and $(X,\tau_{N-1})$ are identical before $\tau_{N-1}$. This implies that we can extend the unique local solution to the unique maximal local solution. The existence and uniqueness is inherited.
+
+
+\section{Conclusion}
+
+In this essay, we studied stochastic differential equations with infinite delay and L\'evy noise. We proved the global results under linear growth condition, and local result under polynomial nonlinear growth condition.
+
+This essay mainly referred from \cite{WEI2007516} and the proof in \cite[Theorem 8.3]{gall2016brownian}.
+
+\section*{Appendix}
+
+The following theorem is usually abbreviated as BDG inequality, \cite[Theorem 5.16]{gall2016brownian}
+\begin{theorem}
+[Burkholder-Davis-Gundy Inequality]\label{bdg}
+For every real $p>0$, there exist two constants $c_p, C_p>0$ depending only on $p$ such that, for every continuous local martingale $M$ with $M_0=0$, and every stopping time $T$,
+\begin{equation*}
+c_p\e \big[\iprod{M,M}_{T}^{p/2} \big]\le \e\big[\sup_{s\le T}|M_s|^p\big]\le C_p \e\big[\iprod{M,M}_T^{p/2}\big].
+\end{equation*}
+\end{theorem}
+
+% The following inequality \cite[Theorem 4.4.23]{applebaum_2009} generalize BDG inequality to the stochastic integral with respect to the Poisson random measure.
+
+% \begin{theorem}
+%     [Kunita's First Inequality] Assume that 
+% \begin{equation*}
+%     I(t)=\int_0^t \int_E H(s,x) \tilde{N}(\dd x\dd s).
+% \end{equation*}
+% Then for any $p\ge 2$, there exists $D_p>0$ such that
+% \begin{equation*}
+% \e\big[\sup_{s\le t} |I(s)|^p\big]\le D_p \int_0^t \int_E |H(s,x)|\nu(\dd x)\dd s 
+% \end{equation*}
+% \end{theorem}
+
+ The following inequality generalize the BDG inequality to the càdlàg processes
+
+\begin{theorem}
+    [Bukholder-Davis-Gundy, Generalization] \label{bdgg}
+    For every real $p\ge 2$, there exist two constants $c_p, C_p>0$ depending only on $p$ such that, for every càdlàg martingale $M$ with $M_0=0$, and every stopping time $T$,
+    \begin{equation*}
+        c_p\e \big[[M,M]_{T}^{p/2} \big]\le \e\big[\sup_{s\le T}|M_s|^p\big]\le C_p \e\big[[M,M]_T^{p/2}\big].
+        \end{equation*}
+\end{theorem}
+
+\begin{theorem}
+[Uniform Limit Preserve Càdlàg Property] \label{ucd}Let $f_n:[0,T]\to \re$ be a uniformly convergent sequence with limit $f$. Assume that $f_n$ are all càdlàg, then $f$ is càdlàg.
+\end{theorem}
+
+\begin{proof}
+The proof of this result is purely a mathematical analysis stuff.
+
+Let $x$ be the discontinuous point of $f$. For $\varepsilon>0$, exists $N>0$ such that for every $m,n>N$ we have
+\begin{equation*}
+    |f_m(t)-f_n(t)|\le \varepsilon/3, \quad \forall t\in [0,T].
+\end{equation*}
+For every $m, n$, we can choose $t_0$ near $x$ such that
+\begin{equation*}
+    |f_m(t_0)-f_m(x-)|\wedge |f_n(t_0)-f_n(x-)|\le \varepsilon/3.
+\end{equation*}
+Hence,
+\begin{equation*} 
+    |f_n(x-)-f_m(x-)|\le \varepsilon,\quad \forall m,n \ge N.
+\end{equation*}
+This implies that $f_n(x-)$ is Cauchy, hence limits in $\re$. 
+
+Now consider
+\begin{equation*}
+    |f(t)-\lim_n f_n(x-)|\le |f(t)-f_n(t)|+|f_n(t)-f_n(x-)|+|f_n(x-)-\lim_n f_n(x-)|.
+\end{equation*}
+For fixed $\varepsilon>0$, the first and third term are less than $\varepsilon/3$ when $n>N$. Fix $n>N$, the second term is less than $\varepsilon/3$ when $x-\delta<t<x$. This implies that $\lim_n f_n(x-)=f(x-)$. 
+
+For the second part, basically we have
+\begin{equation*}
+    \lim_n f_n(x+)=f(x+).
+\end{equation*}
+On the other hand,
+\begin{equation*}
+    f(x)=\lim f_n(x)= \lim f_n(x+)=f(x+).
+\end{equation*}
+So $f$ is càdlàg. We are done. 
+\end{proof}
+
+\bibliography{mart.bib}
+
+\end{document}

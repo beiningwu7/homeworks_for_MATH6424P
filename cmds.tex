@@ -11,7 +11,7 @@
 \newcommand{\iprod}[1]{\left\langle #1\right\rangle}
 \newcommand{\nm}[1]{\left\lVert#1\right\rVert}
 
-\newcommand{\ex}[1]{\mathbb{E}[#1]}
+\newcommand{\ex}[1]{\mathbb{E}\left[#1\right]}
 
 \newcommand{\re}{\mathbb{R}}
 \newcommand{\ra}{\mathbb{Q}}
@@ -20,7 +20,10 @@
 \newcommand{\s}{\mathbb{S}}
 \newcommand{\p}{\mathbb{P}}
 \newcommand{\f}{\mathscr{F}}
-
+\newcommand{\B}{\mathscr{B}}
+\newcommand{\w}{\mathbb{W}}
+\newcommand{\q}{\mathbb{Q}}
+\newcommand{\e}{\mathbb{E}}
 
 \newcommand{\mc}{\color{BlueViolet}}
 \renewcommand{\qedsymbol}{\mc $\blacksquare$}
@@ -28,15 +31,22 @@
 \renewcommand{\ge}{\geqslant}
 \renewcommand{\le}{\leqslant}
 
+\definecolor{MyRed}{RGB}{117,35,31}
+\newcommand{\mr}{\color{MyRed}}
+\usepackage[colorlinks=true,linktoc=all,linkcolor=MyRed,urlcolor=blue,citecolor=MyRed]{hyperref}
+
 % Theorems, etc. Environment Settings.
 
 \theoremstyle{definition}
 \newtheorem{problem}{\mc Problem}
+\newtheorem*{proposition}{\mc Proposition}
 \newtheorem{definition}{\mc Definition}
 \newtheorem{theorem}{\mc Theorem}
 \newtheorem*{example}{\mc Example}
 \newtheorem*{remark}{\mc Remark}
 \newtheorem{lemma}{\mc Lemma}
-\newtheorem{ass}{\mc Assumption}
+\newtheorem*{ass}{\mc Assumption}
+\newtheorem{coro}{\mc Corollary}
+
 
 \newenvironment{myenume}{\begin{enumerate}[(i).]\setlength{\itemsep}{0pt}\setlength{\itemindent}{1em}}{\end{enumerate}}

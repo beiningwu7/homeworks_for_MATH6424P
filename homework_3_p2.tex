@@ -1,0 +1,220 @@
+\documentclass[8pt,onesided]{article}
+\input{pkgs}
+\input{cmds}
+\input{pagesettings2_2}
+
+\begin{document}
+    
+{
+\title{\mc  Analysis of Moment Dependent Stochastic Differential Equations\vspace*{.5em}\\  \large Third Homework of Martingale Theory of Stochastic Integration - Part II}
+\author{Beining Wu\footnote{mail: \texttt{andrewwu@mail.ustc.edu.cn}, Student ID: PB19151833}}
+\maketitle
+}
+
+\section{Introduction, Problem Settings}
+
+In the previous homeworks, we were working on classical stochastic differential equations in the following formulation
+\begin{equation*}
+    X_t=x_0+\int_0^t \sigma(s,X_s) \dd B_s+\int_0^t b(s,X_s) \dd s.
+\end{equation*}
+However, in this homework, we're going to study a type of generalized SDE. Briefly, the coefficients here are not only related to the path value, but also the moment of path, which means the solution would necessarily dependent on the set-up, because the calculation of the moment is explicitly dependent on the distribution.
+
+Formally, the SDE we're going to study in this homework is of the following form.
+\begin{equation}
+    \label{msde}
+    X_t=x_0+\int_0^t G(s,X_s,\e_{\p}[X_s^2]) \dd B_s+\int_0^t b(s,X_s,\e_{\p}[X_s^2]) \dd s,\quad t\in[0,T].
+\end{equation}
+Here, the function $G, b: [0,T]\times \re \times \re\to \re$ are bounded and continuous. And
+\begin{equation*}
+    \e_\p [X_s^2]:=\int_\Omega X_s^2 \dd \p
+\end{equation*}
+is the second-moment calculated under $\p$.
+
+
+% Remains
+
+
+\section{Definition of Existence and Uniqueness}
+
+Since the equation is slightly different from the earlier one, we shall re-clarify the definition of the existence and uniqueness in terms of this special equation. 
+
+Like the conventions in the earlier homeworks, by a \textbf{set-up}, we mean $(\Omega,\f,(\f_t)_{t\ge 0}, \p,B)$. Here $B$ is a $\f_t$-Brownian motion under probability measure $\p$.
+
+\subsection{Strong Scenario}
+
+As before, a strong solution should be dependent on the set-up. 
+
+\begin{definition}
+    [Strong Solution] Given the set-up $(\Omega,\f,(\f_t)_{t\ge 0}, \p,B)$, the strong solution of equation \ref{msde} under the set-up is a $\f_t$-adapted process $X_t$, such that
+
+    \begin{itemize}
+        \item $\p$-a.s., the $X(\omega)$ is continuous in $t$.
+        \item $\p$-a.s., the following equation is true
+        \begin{equation*}
+            X_t=x_0+\int_0^t G(s,X_s,\e_{\p}[X_s^2]) \dd B_s+\int_0^t b(s,X_s,\e_{\p}[X_s^2]) \dd s,\quad \forall t\in[0,T].
+        \end{equation*}
+    \end{itemize}
+
+We say that the equation is exact, if for any set-up $(\Omega,\f,(\f_t)_{t\ge 0}, \p,B)$, the equation has exactly one strong solution (up to $\p$-indistinguishable).
+\end{definition}
+
+The uniqueness under this strong scenario is pathwise uniqueness.
+
+\begin{definition}
+    [Pathwise Uniqueness] We shall say that the pathwise uniqueness holds for equation \ref{msde}, if given any set-up $(\Omega,\f,(\f_t)_{t\ge 0}, \p,B)$, and two continuous semimartingale $X$ and $X'$ such that
+    \begin{equation*}
+        \p-\text{a.s.}\quad\left\{
+        \begin{aligned}
+            X_t=x_0+\int_0^t G(s,X_s,\e_{\p}[X_s^2]) \dd B_s+\int_0^t b(s,X_s,\e_{\p}[X_s^2]) \dd s,\quad \forall t\in[0,T],\\
+            X'_t=x_0+\int_0^t G(s,X'_s,\e_{\p}[X_s^{'2}]) \dd B_s+\int_0^t b(s,X'_s,\e_{\p}[X_s^{'2}]) \dd s,\quad \forall t\in[0,T].
+        \end{aligned}
+        \right.
+    \end{equation*}
+    Then, 
+    \begin{equation*}
+        \p\text{-a.s.} \quad X_t=X'_t, \quad \forall t\in [0,T].
+    \end{equation*}
+\end{definition}
+
+\subsection{Weak Scenario}
+ 
+In the weak scenario case, the set-up doesn't have to be specified previously. We have
+\begin{definition}
+    [Weak Solution] A weak solution of the SDE \ref{msde} consists of the following
+    \begin{itemize}
+        \item  A filtered space $(\Omega, \f, (\f_t)_{t\ge 0 }, \p)$.
+        \item  A $\f_t$-Brownian motion $B$.
+        \item  An $\p$-a.s. defined continuous semimartingale $X$, such that
+        \begin{equation*}
+            \p\text{-a.s.}\quad  X_t=x_0+\int_0^t G(s,X_s,\e_{\p}[X_s^2]) \dd B_s+\int_0^t b(s,X_s,\e_{\p}[X_s^2]) \dd s,\quad \forall t\in[0,T].
+        \end{equation*}
+    \end{itemize}
+
+    We shall say that weak existence is true for equation \ref{msde} if there exists a weak solution of \ref{msde}.
+\end{definition}
+
+% And the uniqueness is in the sense of distribution. 
+
+% \begin{definition}
+%     [Weak Uniqueness] We say that the solution of the equation \ref{msde} is weakly unique, or unique in distribution. If, for any two weak solution $(\Omega,\f,(\f_t)_{t\ge 0}, \p,B, X)$ and $(\tilde\Omega,\tilde \f,(\tilde \f_t)_{t\ge 0}, \tilde\p,\tilde B, \tilde X)$, the push-forward measure, or the law on $C([0,T])$ are identical, i.e.,
+%     \begin{equation*}
+%         \p\circ X^{-1}= \tilde \p \circ \tilde X^{-1}, \quad \text{on } (C([o,T]),\B(C([0,T]))).
+%     \end{equation*}
+%     Here we regard a process $X$ as a mapping $\Omega \to C([0,T])$.
+% \end{definition}
+
+% \section{Lipschitz Continuity Assumption}
+
+% Like the classical case, Lipschitz condition provides strong restraints that prevent the solution from explosion.
+
+\section{A Simple Result on Pathwise Uniqueness}
+
+\begin{ass}
+[Global Lipschitz Continuity] We would always assume that, $G$ and $b$ are global Lipschitz continuous in the following sense
+\begin{equation*}
+    |G(s,x,m)-G(s,x',m')|\vee  |b(s,x,m)-b(s,x',m')|\le K(|x-x'|+|m-m'|).
+\end{equation*}
+\end{ass}
+
+\subsection{Proof of Pathwise Uniqueness}
+
+Fix the set-up $(\Omega, \f,(\f_t)_{t\ge 0},\p,B)$. From now we drop the subscript of expectation symbol. Assume that $X$ and $X'$ both solve the equation. Define the stopping time
+\begin{equation*}
+    \tau_n=\inf\{t\ge 0:|X_t| \ge n \text{ or } |X'_t|\ge n\}.
+\end{equation*}
+Consider the $L^2$ difference.
+\begin{align*}
+&\ex{(X_{t\wedge \tau_n}-X'_{t\wedge \tau_n})^2}\\
+&\le 2\ex{\left( \int_0^{t\wedge \tau_n}(G(s,X_s,\ex{X_s^2})-G'(s,X_s,\ex{X_s^2}))\dd B_s \right)^2}  +2\ex{\left( \int_0^{t\wedge \tau_n}(b(s,X_s,\ex{X_s^2})-b'(s,X_s,\ex{X_s^2}))\dd s \right)^2} \\
+&\le 2\ex{ \int_0^{t\wedge \tau_n}\left(G(s,X_s,\ex{X_s^2})-G'(s,X_s,\ex{X_s^2})\right)^2\dd s} + 2\ex{\left( \int_0^{t\wedge \tau_n}(b(s,X_s,\ex{X_s^2})-b'(s,X_s,\ex{X_s^2}))\dd s \right)^2} \\
+&\le 2\ex{ \int_0^{t\wedge \tau_n}\left(G(s,X_s,\ex{X_s^2})-G'(s,X_s,\ex{X_s^2})\right)^2\dd s} +2\ex{{t\wedge \tau_n}\int_0^{t\wedge \tau_n}\left(b(s,X_s,\ex{X_s^2})-b'(s,X_s,\ex{X_s^2})\right)^2\dd s}\\
+&\le 2K^2 (1+T)\ex{\int_0^{t\wedge \tau_n}\left(\left|X_s-X'_s\right|+\left|\ex{X_s^2-X_s^{'2}}\right|\right)^2 \dd s} \\
+&\le 4K^2(1+T) \ex{\int_0^{t\wedge \tau_n}\left|X_s-X'_s\right|^2+\ex{\left|(X_s+X'_s)(X_s-X'_s)\right|^2} \dd s}\\
+&\le 4K^2(1+T) \ex{ \int_0^{t\wedge \tau_n}   \left|X_s-X'_s\right|^2+ 4n^2 \ex{\left|X_s-X'_s\right|^2} \dd s}\\
+&\le 4K^2 (1+T)\left( \ex{\int_0^{t} \left|X_{s\wedge \tau_n}-X'_{s\wedge \tau_n}\right|^2\dd s}+4n^2\int_0^t \ex{\left|X_{s\wedge \tau_n}-X'_{s\wedge \tau_n}\right|^2}\right)
+\end{align*}
+Define the function
+\begin{equation*}
+    h(t)=\ex{X_{t\wedge \tau_n}-X'_{t\wedge \tau_n}}.
+\end{equation*}
+Then we have
+\begin{equation*}
+    h(t)\le 4K^2(1+T)( 1+4n^2) \int_0^T h(s)\dd s. 
+\end{equation*}
+Moreover, $h$ is a non-negative bounded function. By Grownall's inequality
+\begin{equation*}
+    h(t)\equiv 0.
+\end{equation*}
+This implies that,
+\begin{equation*}
+    \p\text{-a.s.}\quad X_{t\wedge \tau_n}=X'_{t\wedge \tau_n}, \quad \forall t\in [0,T].
+\end{equation*}
+By letting $n\to \infty$, the pathwise uniqueness is done.
+
+\subsection{Proof of Strong Existence}
+
+\section{Exactness from Yamada-Watanabe Theorem}
+
+Assume that for the fixed set-up $(\Omega, \f, (\f_t)_{t\ge 0}, B)$, we have a continuous semimartingale that solves the equation \ref{msde}. Then, we fix
+\begin{equation*}
+    f_t=\e_{\p}\big[ X_t^2\big].
+\end{equation*}
+And then change the coefficients into
+\begin{equation*}
+    G^{f}(s, \cdot):=G(s, \cdot, f_s), \quad b^{f}(s, \cdot):=b(s, \cdot, f_s).
+\end{equation*}
+And consider the equation
+\begin{equation}
+    \label{trans}
+     Y_t=x_0+\int_0^t G^f(s,Y_s) \dd B_s+\int_0^t b^f(s,X_s) \dd s.
+\end{equation}
+This equation is of the classical form. And we can therefore use the Yamada-Watanabe theorem to obtain
+\begin{theorem}
+    If the equation \ref{trans} is of pathwise uniqueness and exists a weak solution, then it's exact. 
+\end{theorem}
+
+
+
+\section{Perturbation on Noise}
+
+In this section, we assume the following proposition to be true.
+ 
+\begin{proposition}
+There exists a function $F:C([0,T])\to C([0,T])$, such that, for given set-up $(\Omega, \f, (\f_t)_{t\ge0}, \p, B)$, we have $X=F(B)$ that solves the equation, i.e., the semimartingale $X=F(B)$ satisfy
+\begin{equation*}
+    \p\text{-a.s.}\quad \left\{
+    \begin{aligned}
+        &X(\omega) \text{ is continuous in }t,\\    
+        &X_t=x_0+\int_0^t G(s,X_s,\e_{\p}[X_s^2]) \dd B_s+\int_0^t b(s,X_s,\e_{\p}[X_s^2]) \dd s,\quad \forall t\in[0,T].
+    \end{aligned}
+    \right.
+\end{equation*}
+\end{proposition}
+
+Based on this, we are going to study the semimartingale
+\begin{equation*}
+    X=F(B+\int_0^{\cdot} h(s)\dd s).
+\end{equation*}
+
+We begin with recalling some results in homework 3-1. On the fixed set-up $(\Omega, \f, (\f_t)_{t\ge 0},\p ,B)$. Let 
+\begin{equation*}
+    L_t=-\int_0^t h(s)\dd B_s.
+\end{equation*}
+And define the measure $\dd\q= \mathscr{E}(L)_T \dd \p$. Then we have proved that
+\begin{equation*}
+    \tilde{B}_t:=B_t+\int_0^t h(s)\dd s,
+\end{equation*}
+defines a $(\f_t,\q)$-Brownian motion. Now under the set-up $(\Omega, \f,(\f_t)_{t\ge 0},\p,\tilde{B})$, the semimartingale $\tilde{X}= F(\tilde{B})$ is a strong solution of the equation
+\begin{equation*}
+   \q\text{-a.s.}\quad \tilde X_t=x_0+\int_0^t G(s,\tilde X_s,\e_{\q}[\tilde X_s^2]) \dd \tilde B_s+\int_0^t b(s,\tilde X_s,\e_{\q}[\tilde X_s^2]) \dd s,\quad \forall t\in[0,T].
+\end{equation*}
+
+ Recall that the stochastic integral of progressive process with semimartingales are stable under the mutually absolutely continuous measure, we have
+ \begin{equation*}
+    \p\text{-a.s.}\quad\tilde X_t=x_0+\int_0^t G(s,\tilde X_s,\e_{\p}[\tilde X_s^2 \cdot D_T]) \dd  B_s+\int_0^t G(s,\tilde X_s,\e_{\p}[\tilde X_s^2 \cdot D_T]) h(s)\dd s+\int_0^t b(s,\tilde X_s,\e_{\p}[\tilde X_s^2 \cdot D_T]) \dd s,\quad \forall t\in[0,T].
+ \end{equation*}
+Here
+\begin{equation*}
+    D_T=\exp\{L_t-\frac{1}{2}\iprod{L,L}_T\}=\exp\{-\int_0^T h(s)\dd B_s-\frac{1}{2} \int_0^T h^2(s)\dd s\}.
+\end{equation*}
+\end{document}

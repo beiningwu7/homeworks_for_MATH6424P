@@ -1,0 +1,344 @@
+\documentclass[8pt,onesided]{article}
+
+\input{pkgs}
+\input{pagesettings}
+\input{cmds}
+
+\bibliographystyle{apalike}
+
+\begin{document}
+
+{
+\title{\mc  Brief Review of Yamada-Watanabe Theorem\vspace*{.5em}\\  \large Second Homework of Martingale Theory of Stochastic Integration }
+\author{Beining Wu\footnote{mail: \texttt{andrewwu@mail.ustc.edu.cn}, Student ID: PB19151833}}
+\maketitle
+}
+
+\section{Introduction, Problem Settings}
+
+\subsection{Notations and Preliminaries}
+
+We begin with several notations that would be frequently used in this essay. 
+
+\paragraph{Filtered Space} Our effort is generally based on $(\Omega, \f,(\f_t)_{t\ge 0}, \p)$ . Here $\f_t$ is an increasing $\sigma$-algebra, while $\p$ is the probability measure defined on the measurable space $(\Omega,\f)$. Often we would pay attention to the complete filtration, where all the null sets are measurable. Definition of measurability and $\sigma$-algebra can be found in the classical text \cite{durrett2019probability}.
+
+\paragraph{Wiener Space} Let $W:=C(\re^+,\re)$ be the space of all continuous functions on $\re^+$. The measurable structure on $W$ is defined by with the canonical process $(X(w))_t:=w(t)$. Define the filtration as $\B_t:=\sigma \iprod{ X_s, s\le t}$, and the $\sigma$-algebra as $\mathscr{B}(W):=\sigma \iprod{\B_t,t\ge 0}$. One could check that this $\sigma$-algebra coincides with the Borel $\sigma$-algebra on $W$, where the topology is induced form the metric
+\begin{equation*}
+    d(x,y)=\sum_{k=1}^{\infty} \frac{1}{2^k} \frac{\sup_{[0,k]} |x(t)-y(t)|}{1+\sup_{[0,k]} |x(t)-y(t)|}.
+\end{equation*}
+This space is usually used to construct our canonical probability space for the processes. We will use $W^d$ and $\B(W^d)$ for the multidimensional version.
+
+\paragraph{Process} A stochastic process $(X_t)_{t\ge 0}$ is an indexed collection of  random variables, or function-valued random elements. A process is \textbf{adapted} if, for every $t\ge 0$ we have $X_t$ is $\f_t$ measurable. It's \textbf{progressive} if, for every $t\ge 0$, the mapping $X: (\omega,t)\mapsto X_t(\omega)$ is $ \f_t\otimes  \mathscr{B}([0,t])$. Moreover, we can define the \textbf{progressive $\sigma$-algebra} $\mathscr{P}$ as the sets of all the sets $A\in\f \otimes \mathscr{B}(\re^+)$ such that the process $1_{A}(\omega,t)$ is progressive. One can check that a process if progressive iff it's $\mathscr{P}$ measurable.
+
+\paragraph{Brownian Motion and Wiener Measure} A $\f_t$-Brownian motion $(B_t)_{t\ge 0}$ is a $\f_t$ adapted process with independent increments and continuous sample paths. Moreover
+\begin{equation*}
+    B_t-B_s\sim  N(0,t-s).
+\end{equation*}
+For the construction and properties of Brownian motion, one can refer to \cite{gall2016brownian} and \cite{rogers2000diffusions1}. The wiener measure is the law of Brownian motion on $W$, i.e., the push-forward probability measure on $W$.
+
+\subsection{What is Stochastic Differential Equations?}
+
+Cited from \cite{gall2016brownian}, the theory of stochastic differential equations aims to provide a model for a ordinary differential equation with a random perturbation. An simple ordinary equation can be formulated as
+\begin{equation*}
+    y'(t)=b(y(t)),
+\end{equation*}
+or in the differential form,
+\begin{equation*}
+    \dd y_t=b(y_t) \dd t.
+\end{equation*}
+Now we would involve the random noise term. Clearly a Brownian motion would be an ideal noise for its properties of independent increments. The model can be unrigorously written as
+
+\begin{equation*}
+    \dd X_t=b(X_t) \dd t+\sigma \dd B_t,
+\end{equation*}
+where $\sigma$ is a fixed constant.
+
+Our model would be a bit more complex than the aforementioned one. 
+
+\begin{definition}
+[Stochastic Differential Equations] Let $ \sigma: \re^+ \times \re^n \to  L(\re^d;\re^n)$, which is the matrix valued mapping, and $b:\re^+ \times \re^n \to \re^n$ be the locally bounded measurable functions. The stochastic differential equation we are going to study is of the form
+% \begin{equation} 
+%     \dd X_t = \sigma(t,X_t) \dd B_t + b(t,X_t) \dd t
+% \end{equation}
+% consists of
+% \begin{itemize}
+%     \item Filtered space $(\Omega, \f,(\f_t)_{t\ge 0}, \p)$.
+%     \item A $d$-dimensional $(\f_t)$-Brownian motion $(B_t)_{t\ge0}$.
+%     \item An $n$-dimensional adapted process $X_t$, with continuous sample path, such that
+% \end{itemize}
+
+\begin{equation}
+    \label{sde}
+    X_t=X_0+\int_0^t \sigma(s,X_s)\dd B_s+\int_0^t b(s,X_s) \dd s,
+\end{equation}
+or written in coordinate form
+\begin{equation*}
+    X_t^i=X_0^i+\int_0^t \sum_{j=1}^d \sigma(t,X_s)_{ij}\dd B_s^j+\int_0^t b(s,X_s)_i \dd s.
+\end{equation*}
+\end{definition}
+
+\begin{remark}
+    [Technical Notations] Here are some assumptions that would be necessary for the definitions to be rational. First is measurability assumptions. Recall that in the definition of the stochastic integration, the integrand processes should be progressive and consequently the integral processes are adapted. The following assumption if from \cite{rogers2000diffusions2}, wherein the settings are more complex.
+    \begin{ass}
+        [Progressive Functional] The mapping $\sigma$ and $b$ are the progressive functional, which means, the process $\sigma(t,X_t)$ and $b(t,X_t)$ are progressive if $X_t$ is adapted.
+    \end{ass}
+    Another assumption comes from the rationality of stochastic integration. Note that we have required $\sigma$ and $b$ to be locally bounded. This could be replaced with a more general assumption. 
+    \begin{ass}
+    [Finiteness] \label{fin} The mapping $\sigma$ and $b$ should follow
+    \begin{equation*}
+        \forall t\ge 0 \qquad\int_0^t \left(\nm{\sigma(s,X_s)}_{F}^2 + |b(s,X_s)| \right)\dd s<\infty\quad \text{a.s.}
+    \end{equation*}
+    \end{ass}
+    But as \cite{rogers2000diffusions2} noted, this finiteness requirement is nothing to worry much about, because we can use the stopping time trick to restrict our attention before explosion. In rest of this essay, we assume that this finiteness assumption is always true for the solution. 
+\end{remark}
+
+\subsection{What We Want to Study?}
+
+From \cite{gall2016brownian} we have known that, if we assume $\sigma$ and $b$ to be Lipschitz continuous, then the pathwise uniqueness easily follows, and we can construct the solution with Picard approximation series. However there are plenty of cases where Lipschitz continuity fails but pathwise uniqueness still holds. In Yamada and Watanabe's classical paper \cite{yamada1971}, they proved that the pathwise uniqueness implies the weak uniqueness, and moreover, there exists a strong solution. In our essay, we will go over the definition of the uniqueness and existence of \ref{sde}. Then we will go over the proof of the classical Yamada-Watanabe theorem.
+
+\section{Definition of Existence and Uniqueness}
+
+In this section, we will quickly go over the definition of uniqueness and existence in different senses. Here and after, we will use the term \textbf{set-up} $(\Omega, \f ,(\f_t)_{t\ge 0},\p, \xi, B)$, where $\xi$ is a $\f_0$ measurable random variable and $B=(B_t)_{t\ge 0}$ is the $\f_t$ Brownian motion. One of the crucial concepts we will encounter frequently is the canonical set-up, which is a generalization of the Wiener space.
+
+\begin{definition}
+[Canonical Space and Set-up] In the following texts, a \textbf{canonical set-up} with initial distribution $\mu$ means:
+\begin{itemize}
+    \item A probability space: $\Omega=\re^n\times W^d$, which stand for the initial value and Brownian motion trajectory space.
+    \item Probability measure: $ \p=\mu \times \w$, where $\w$ is the Wiener measure on $W^d$.
+    \item Canonical initial value and Brownian paths: $\xi(y,w)=y$ and $B(y,w)_t=w(t)$ for $(y,w)\in \Omega$.
+    \item Filtration: $\f_t=\overline{\sigma\iprod{\xi,B_s, s\le t}}$, the completion with $\p$-null sets.
+\end{itemize}
+\end{definition}
+
+\subsection{Weak Scenario}
+
+We begin with the weak scenario, where all the existence and uniqueness are defined in the sense of distribution.
+
+\begin{definition} 
+[Weak Solution] We say that the SDE
+\begin{equation}
+    \label{wsde}
+    X_t=X_0+\int_0^t b(s,X_s) \dd s+\int_0^t \sigma(s,X_s) \dd B_s
+\end{equation}
+has a weak solution with initial distribution $\mu$, if there exists
+\begin{itemize}
+    \item a $(\Omega, \f ,(\f_t)_{t\ge 0},\p)$ that satisfy the usual conditions.
+    \item a $\f_t$-Brownian motion $B_t$ 
+    \item a semimartingale $X_t$ such that equation \ref{wsde} and assumption \ref{fin} hold, and $X_0$ has law $\mu$.
+\end{itemize}
+\end{definition}
+
+\begin{definition}
+[Weak Uniqueness] We say that the solution (weak in this sense) of the equation \ref{wsde} is weakly unique, or unique in distribution, if whenever $X_t$ and $X'_t$ are both the weak solution of \ref{wsde} with same initial distribution, then $X_t$ and $X'_t$ are identical in distribution.
+\end{definition}
+
+\subsection{Strong Scenario}
+
+\begin{definition}
+[Pathwise Uniqueness] We shall say that the \textbf{pathwise uniqueness} holds for equation $\ref{sde}$, if for fixed setup $(\Omega, \f ,(\f_t)_{t\ge 0},\p, \xi, B)$ and any two continuous semimartingales $X$ and $X'$ such that
+\begin{align*}
+X_t=\xi+\int_0^t b(s,X_s)\dd s+\int_0^t \sigma(s, X_s)\dd B_s,\\
+X_t'=\xi+\int_0^t b(s,X_s')\dd s+\int_0^t \sigma(s, X_s')\dd B_s,\\
+\end{align*}
+then we have
+\begin{equation*}
+    \text{a.s.}\quad  X_t=X_t', \; \forall t\ge 0
+\end{equation*}
+\end{definition}
+
+In this case, we can conclude that given any set-up, there is at most one semimartingale $X_t$ (unique up to indistinguishablity) that solves the equation. We shall define the equation that has exactly one solution as the following.
+
+\begin{definition}
+[Exact SDE] The equation \ref{sde} is \textbf{exact} if given any setup $(\Omega, \f ,(\f_t)_{t\ge 0},\p, \xi, B)$, there is exactly one semimartingale that solves the equation \ref{sde}. 
+\end{definition}
+
+Clearly the pathwise uniqueness is true for exact SDEs. Note that in the definition of exact SDEs, we require no restriction on the given set-up, which means we could adopt the minimal set-up, generated by $\xi$ and $B$. This follows the definition of strong solution. Briefly, a strong solution is adapted to the canonical filtration of the driven Brownian motion. 
+
+\begin{definition}
+Given set-up $(\Omega, \f ,(\f_t)_{t\ge 0},\p, \xi, B)$. A strong solution of the SDE \ref{sde} is adapted with respect to the completed canonical filtration generated form $(\xi,B)$.
+\end{definition}
+
+
+
+% Formally, we have the following definition from \cite{rogers2000diffusions2}.
+
+% \begin{definition}
+%     [Strong Solution] We say that, a function
+%     \begin{equation*}
+%         F: \re^n \times W^d \to W^n
+%     \end{equation*}
+%     is a strong solution to the SDE \ref{sde} if
+%     \begin{equation*}
+%         F^{-1}(\B_t(W^n))\subset \B(\re^n)\otimes\overline{\B_t(W_d)}.
+%     \end{equation*}
+%     And the process $X=F(\xi,B)$ solves the SDE \ref{sde} on any set-up. 
+%     Here $\overline{\B_t(W_d)}$ is the completion of $\B_t(W_d)$ under Wiener measure. Moreover, on any set-up $(\Omega, \f ,(\f_t)_{t\ge 0},\p, \xi, B)$ the process $X=F(\xi,B)$ solves the SDE \ref{sde}.
+% \end{definition}
+
+% The first part of this definition actually defines the solution on the canonical set-up. Once this is done, it suffices to plug in the $(\xi,B)$ in the other set-ups to obtain a solution.
+
+\section{Main Result: Yamada-Watanabe Theorem}
+
+In this section we give the formal statement of the famous Yamada-Watanabe theorem.
+
+\begin{theorem}[Yamada-Watanabe \cite{yamada1971}] 
+    \label{ym} For progressive path functional $\sigma$ and $b$, the stochastic differential equation
+    \begin{equation*}
+        \dd X_t=\sigma(t,X_t)\dd B_t+b(t,X_t) \dd B_t \label{ymsde}
+    \end{equation*}
+    is exact if the following two conditions hold
+    \begin{itemize}
+        \item The SDE \ref{ymsde} has at least one weak solution.
+        \item The SDE \ref{ymsde} shares the pathwise uniqueness property.
+    \end{itemize}
+    Moreover, one can conclude weak uniqueness from pathwise uniqueness. 
+\end{theorem}
+
+If the $\ref{ymsde}$ is exact, then these conditions easily follow. We shall only consider the other direction. 
+
+Before we begin our proof, we shall introduce a few technical lemmas, which would be the stepping stones in our proof. The first one (Theorem 10.4 in \cite{rogers2000diffusions2}) enables us to move from canonical set-up to the general set-up. 
+
+\begin{theorem}
+    \label{trans}
+Suppose that on the canonical set-up with initial distribution $\mu$ the SDE \ref{sde} has a solution
+\begin{equation*}
+    X_t=\xi +\int_0^t\sigma(s,X_s) \dd B_s +\int_0^t b(s,X_s) \dd s.
+\end{equation*}
+Then there exists a function $F_{\mu}: \re^{n}\times W^d \to W^n$, such that for all $t\ge 0$, 
+\begin{equation*}
+    F_{\mu}^{-1}(\B_t(W^n))\subset \f_t.
+\end{equation*}
+Such that a.s. $F_{\mu}(\xi,B)=X$. Moreover, on ant set-up $(\tilde{\Omega}, \tilde \f, (\tilde \f_t)_{t\ge 0}, \tilde{\xi}, \tilde{B})$, the process $\tilde{X}=F_{\mu} (\tilde{\xi},\tilde{B})$ solves
+\begin{equation*}
+    \tilde{X}=\tilde{\xi}+\int_0^t \sigma(s,\tilde X_s)\dd B_s+\int_0^t b(s,\tilde X_s) \dd s.
+\end{equation*}
+\end{theorem}
+\begin{proof}
+    See \cite[Theorem 10.4]{rogers2000diffusions2}.
+\end{proof}
+
+This theorem means, if for any initial distribution $\mu$ we can find a solution on the canonical set-up with initial distribution $\mu$, then we can find the solution on any set-up with a transition function. 
+
+Before beginning our formal proof, a technical lemma would be introduced here. This lemma is somehow critical, as it clarifies the stability of stochastic integral with respect to the Brownian motion under different set-ups.
+
+\begin{lemma}
+\label{stab}
+On canonical set-up, if $\varphi:\re^{+}\times \Omega\to \re^d$ is $\mathscr{P}/\B(\re^d)$ measurable, and satisfies the integrability condition
+\begin{equation*}
+    \p\text{-a.s.}\quad \int_0^t |\varphi(s;\xi,B)|^2 \dd s<\infty,\quad \forall t\ge 0.
+\end{equation*}
+Then there exists a function $\Phi:\re^n\times W^d\to W^1$ which is $\B(\re^n)\times\B(W^d)/\B(W^1)$ measurable such that
+\begin{equation*}
+    \p\text{-a.s.}\quad \int_0^{\cdot} \varphi(s;\xi,B) \dd s=\Phi(\xi,B),\quad \forall t\ge 0.
+\end{equation*}
+Moreover, on any set-up $(\tilde{\Omega},\tilde{ \f},(\tilde{\f}_t)_{t\ge0}, \tilde{\xi},\tilde{B})$, we have
+\begin{equation*}
+    \tilde \p\text{-a.s.}\quad \int_0^{\cdot} \varphi(s;\tilde \xi,\tilde B) \dd s=\Phi(\tilde \xi,\tilde B),\quad \forall t\ge 0.
+\end{equation*}
+\end{lemma}
+
+\begin{proof}
+    See, \cite[Lemma 10.1]{rogers2000diffusions2}.
+\end{proof}
+
+In the rest of our essay, we would follow \cite{rogers2000diffusions2} to prove this main theorem in two parts. In the first part, we would deduce that the pathwise uniqueness implies weak uniqueness. 
+
+\section{From the Pathwise Uniqueness to Weak Uniqueness}
+
+The intrinsic problem is that weak uniqueness \textbf{does not} require the set-up to be the same, instead the pathwise uniqueness does. This key difference motivates us to construct an associated processes which share the same set-up. 
+
+\begin{proof}[Proof of Part 1]
+Let $\mu$ be the initial distribution, then by the weak existence condition, there exists a weak solution $(X,B)$ (a set-up, actually). Let $\pi$ be the distribution of $(X_0,X,B)$, i.e., a push forward probability measure on $ \re^n \times W^n \times W^d$. And define the regular conditional probability $\mathbb{Q}: (\re^n\times W^d) \times \B(W^n)\to [0,1]$. This is the conditional distribution of solution process given the initial value and trajectory $x_0 \in \re^n , w \in W^d$. Let $(X',B')$ be another weak solution, and also define the same conditional distribution. 
+
+Now we construct the probability space
+\begin{equation*}
+    S=\re^n \times W^d \times W^n \times W^n,
+\end{equation*}
+with probability measure
+\begin{equation*}
+    \overline{\p}(dy,d\beta, dx, dx')=\w(d\beta) \mu(dy)  \mathbb{Q}((y,\beta), dx) \mathbb{Q'}((y,\beta), dx').
+\end{equation*}
+Here $\w$ is the Wiener measure on $W^d$. Then we define the filtration on $S$ to be
+\begin{equation*}
+    \mathscr{G}_t:= \overline{\sigma \iprod{\beta_s, x_s, x'_s, s\le t}},
+\end{equation*}
+which is the canonical filtration completed with $\overline{\p}$-null sets. For $s=(y,\beta,x,x')\in S$, define the canonical process
+\begin{equation*}
+    \beta_t(s):=\beta(t),\quad x_t(s):=x(t), \quad x'_t(s)=x'(t), \quad \xi(s)=y
+\end{equation*}
+Then we have the following lemma, which we will prove later. 
+
+\begin{lemma}
+    The canonical process $\beta_t$ is a $\mathscr{G}_t$-Brownian motion. 
+\end{lemma}
+\begin{proof}
+    See \cite[Lemma 17.12]{rogers2000diffusions2}.
+\end{proof}
+
+Clearly the $\overline{\p}$ marginal distribution of $(x_0,x,\beta)$ is the same as $\pi$, and we can prove that
+\begin{equation*}
+    x_t=\xi+\int_0^t \sigma(s,x_s) \dd \beta_s+\int_0^t b(s,X_s) \dd s.
+\end{equation*}
+And same equation for $x'$. Now $x'$ and $x$ are the solutions of the same set-up, from pathwise uniqueness we have
+\begin{equation*}
+    \overline{\p}-\text{a.s.}  \quad x_t=x'_t,\; \forall t\ge 0.
+\end{equation*}
+This implies that the $\overline{\p}$-marginal distribution of $(y,\beta,x)$ and $( y,\beta,x')$ are identical, and moreover identical to $\pi, \pi'$. Hence $\pi\sim \pi'$, thus the uniqueness in distribution is proved.
+\end{proof}
+
+A byproduct of this proof is that, we can express $x$ in terms of $(y,\beta)$.
+
+\begin{coro}
+There exists a function $F_{\mu}:\re^n\times W^d\to W^n$ such that
+\begin{equation*}
+    F_{\mu}(y,\beta)=x.
+\end{equation*}
+Moreover, $F_{\mu}$ is $\overline{\B(\re^n)\times\B(W^d)}/\B(W^n)$-measurable.
+\end{coro}
+
+\begin{proof}[Proof of Corollary] From the proof in the last theorem, we know that conditional distribution $\mathbb{Q}\times \mathbb{Q}'$ concentrates on the diagonal $\{x=x'\}=:D\subset W^n \times W^n$. This means, for $\mu\times \w$-a.s. $(y,\beta)\in \re^n\times W^d$, there exists $x=x'\in W^n$ such that $\mathbb{Q}((y,\beta),\cdot)= \delta_{x}(\cdot)$ and $\mathbb{Q}'((y,\beta),\cdot)=\delta_{x'}(\cdot)$. Otherwise the product would assign positive mass off the diagonal. Define the function $F_{\mu}:(y,\beta)\mapsto x$, then it's clearly measurable to the completed $\sigma$-algebra $\overline{\B(\re^n)\times\B(W^d)}$.
+\end{proof}
+
+
+\section{Existence of Strong Solution}
+
+
+Now for any initial distribution $\mu$, we shall find the solution on the canonical set-up with initial distribution $\mu$. Once this is done, theorem \ref{trans} implies that there is a strong solution with any set-up. 
+
+\begin{proof}
+[Proof of the Part 2]
+Consider the function $F$ from the last corollary. We shall prove that,
+\begin{equation*}
+    F_{\mu}(\xi,B)
+\end{equation*}
+solves the equation on the canonical set-up. From \cite[Lemma 17.9]{rogers2000diffusions2}, we know that this function satisfies
+\begin{equation*}
+    F_{\mu}^{-1}( \B_t(W^n))\subset\f_t.
+\end{equation*}
+Consider the map
+\begin{equation*}
+\varphi(s;\xi,B)= \sigma(s,F_\mu(\xi,B)).
+\end{equation*}
+This map satisfies all the conditions of lemma \ref{stab}. Hence there exists a map $\Phi: \re^n \times W^d\to W^n$, such that on any set-up $(\Omega',\f',(\f_t'), \p',\xi',B')$, we have
+\begin{equation*}
+    \p'\text{-a.s. }\quad \int_0^{\cdot} \sigma(s,F_{\mu}(\xi',B'))\dd B'_s=\Phi(\xi',B'). 
+\end{equation*}
+Consider, on the space $(S,\mathscr{G},\overline{\p},y,\beta)$ that was defined in the last part, we have
+\begin{equation*}
+    \overline{\p}\text{-a.s.}\quad F_\mu(y,\beta)=y+\Phi(y,\beta)+\int_0^{\cdot} b(s,F_{\mu}(y,\beta))\dd s.
+\end{equation*}
+Since $\overline{\p}$ distribution of $(y,\beta)$ is identical to the $\p$ distribution of $(\xi,\beta)$, we now have
+\begin{equation*}
+    \p\text{-a.s.} \quad F_{\mu}(\xi,B)=\xi+\Phi(\xi,B)+\int_0^{\cdot}b(s,F_{\mu}(\xi,B))\dd s.
+\end{equation*}
+From the definition of $\Phi$ we have
+\begin{equation*}
+    \p\text{-a.s.} \quad F_{\mu}(\xi,B)=\xi+\int_0^t \sigma(s,F_\mu(\xi,B))\dd B_s+\int_0^{\cdot}b(s,F_{\mu}(\xi,B))\dd s.
+\end{equation*}
+Which means $F_{\mu}(\xi,B)$ solves the equation on the canonical set-up. Now by the virtue of theorem 2, the equation is exact.
+
+\end{proof}
+
+\bibliography{mart.bib}
+
+\end{document}

@@ -1,0 +1,235 @@
+\documentclass[8pt,onesided]{article}
+\input{pkgs}
+\input{cmds}
+\input{pagesettings2}
+
+\bibliographystyle{plain}
+
+\begin{document}
+    
+{
+\title{\mc On the Existence and Uniqueness of a Type of Transformed SDE\vspace*{.5em}\\  \large Third Homework of Martingale Theory of Stochastic Integration - Part I}
+\author{Beining Wu\footnote{mail: \texttt{andrewwu@mail.ustc.edu.cn}, Student ID: PB19151833}}
+\maketitle
+}
+
+\section{Introduction, Problem Settings}
+
+Assume that we have known the uniqueness and existence of a given equation, what can we say about the uniqueness and existence on solution of an associated equation with additional term? In this essay, we would focus on a special SDE, where the additional finite-variation term is characterized with given density and the integrand in the martingale term.
+
+\begin{remark}
+    In this essay, all the SDE starts with deterministic initial value, i.e. $\mu=\delta_{x_0}$. All the processes are assumed to be one-dimensional. And we only study the finite time behavior. These restrictions greatly simplified the problem.
+\end{remark}
+
+To begin with, we give the formal description of our problem here. Assume that the \textbf{weak existence} and \textbf{pathwise uniqueness} is true for the following equation
+\begin{equation}
+    \label{original}
+    X_t=x_0+\int_0^t b(s,X_s) \dd s+\int_0^t G(s,X_s)\dd B_s,
+\end{equation}
+Here $G,b:[0,T]\times \re\to \re$ are assumed to be uniformly bounded and continuous, thus the stochastic integral above is well-defined. 
+
+Now we turn to study the existence and uniqueness of the following equation. Assume that $h\in L^2([0,T])$. For any given set-up $(\Omega, \f, (\f_t)_{t\ge0}, \p, B)$, we shall prove that there exists a strong solution $Y_t$ with respect to this set-up, i.e.,
+\begin{equation}
+    \label{changed}
+    Y_t=x_0+\int_0^t b(s,Y_s) \dd s+\int_0^t G(s,Y_s) \dd B_s +\int_0^t G(s,Y_s) \dd s.
+\end{equation}
+In fact, we can prove that the equation is exact, i.e., for each given set-up, there is exactly one semimartingale(up to indistinguishable) that solves the equation.
+
+The key tools needed is the Yamada-Watanabe theorem and Girsanov theorem. In the following section, we would spare some time reviewing these two basic results. In section 3, we would step into the proof of uniqueness and existence of the last equation.
+
+\section{Foundations}
+
+The original equation \ref{original} only possesses the weak existence and pathwise uniqueness, but the result we require involves the existence of strong solution. The famous Yamada-Watanabe theorem provides a bridge for these concepts.
+
+\begin{theorem}
+    [Yamada-Watanabe\cite{yamada1971}] \label{ym}  Assume that the \textbf{weak existence and pathwise uniqueness} is true for given SDE. Then the \textbf{weak uniqueness} is also true for the equation. Moreover, the SDE is \textbf{exact}, which means, for any given set-up, the equation has exactly one strong solution. Formally, for any set-up $(\Omega, \f,(\f_t)_{t\ge 0}, \p, B)$ there exists a function $F:C([0,T],\re)\to C([0,T,\re])$, such that $X=F(B)$ is adapted and
+    \begin{equation*}
+        \p-\text{a.s.} \quad\left\{
+        \begin{aligned}
+        & X_t=x_0+\int_0^t G(s,X_s)\dd B_s +\int_0^t b(s,X_s) \dd s,\\
+            &X(\omega) \text{ is continuous in } t.
+        \end{aligned}
+        \right.
+    \end{equation*}
+    which means we can express $X$ in terms of $B$.
+
+Additionally, the given SDE is weakly unique, i.e., any weak solution must share identical distribution. 
+\end{theorem}
+
+\begin{remark}
+    In Yamada and Watanabe\cite{yamada1971} or Rogers\cite{rogers2000diffusions2}, last theorem is more complex since they were working on more complex settings. We only use the version which is sufficient for our settings. 
+\end{remark}
+
+How do we transfer the property of equation \ref{original} to \ref{changed}? A natural idea is to perform some transformation on equation \ref{changed} such that it has same form of equation \ref{original}. This process can be done via a \textbf{change of measure}. The Girsanov theorem provides canonical transformation which preserves the martingale properties. 
+
+\begin{theorem}
+    [Girsanov \cite{gall2016brownian}] Assume that the probability measure $\p$ and $\q$ are mutually absolute continuous on $\f_{\infty}$. Then the process
+    \begin{equation*}
+        D_t=\left. \dq{\q}{\p}\right|_{\f_t}
+    \end{equation*}
+    is $\p$-a.s. strictly and uniformly integrable closed by $D_{\infty}$ with continuous sample paths. (modification, Ref. \cite{gall2016brownian}). And there exists a unique continuous local martingale $L_t$ such that
+    \begin{equation*}
+        D_t=\exp\{L_t -\frac{1}{2} \iprod{L,L}_t\}.
+    \end{equation*}
+    Moreover, if $M$ is a $\p$-continuous local martingale, then
+    \begin{equation*}
+        \tilde{M}=M-\iprod{M,L}
+    \end{equation*}
+    is a $\q$-continuous local martingale.
+\end{theorem}
+
+Now we already posses all the tools needed. For the definition of existence and uniqueness, please refer to the \href{https://github.com/beiningwu7/homeworks_for_MATH6424P/blob/main/homework_1.pdf}{last homework}, also refer to \cite{rogers2000diffusions2} for more rigorous statement. 
+
+
+
+\section{Proof of Main Result}
+
+The proof of the exactness of equation \ref{changed} consist of the
+
+% Remains
+
+\subsection{Construction of Transition Process}
+
+Assume that the set-up $(\Omega,\f,(\f_t)_{t\ge 0}, \p)$ is given. 
+
+Note that the key difference between the original equation \ref{original} and \ref{changed} is the term
+\begin{equation*}
+    \int_0^t G(s,\cdot)h(s) \dd s.
+\end{equation*}
+Therefore, it motivates us to combine this term with martingale term
+\begin{equation*}
+    \int_0^t \cdot\; h(s)\dd s + \int_0^t \cdot \;\dd B_s =\int_0^t \cdot \dd \tilde{B}_s
+\end{equation*}
+Here $\dd \tilde{B}_s= \dd B_s + h(s)\dd s$. If this process is a Brownian motion at some transformed measure $\q$, then we obtain a equation with form exactly the same to \ref{original}. 
+
+Note that if we define $\dd L_t:= -h(t)\dd B_t$, then it is true that 
+\begin{equation*}
+    -h(t)\dd t=\dd \iprod{B,L}_t.
+\end{equation*}
+So we define the process 
+\begin{equation*}
+    L_t=\int_0^t h(s)\dd B_s, \quad t\in[0,T].
+\end{equation*}
+Moreover, let
+\begin{equation*}
+    D_t=\mathscr{E}(L)_t:=\exp\{L_t-\frac{1}{2}\iprod{L,L}_t\}.
+\end{equation*}
+Since we only consider the finite time behavior, this bounded martingale is uniformly integrable and closed by $D_T$, because $h \in L^2([0,T])$. By the virtue of Girsanov theorem, define
+\begin{equation*}
+    \dd \q=D_T \dd \p.
+\end{equation*}
+Then $\q$ is a probability measure, and
+\begin{equation*}
+   \tilde{B}_t:=B_t+\int_0^t h(s)\dd s= B_t-\iprod{B,L}_t, \quad t\in [0,T].
+\end{equation*}
+is a $\q$-martingale. We shall prove that it's a $\f_t$-Brownian motion under $\q$. 
+
+Clearly the process is an adapted continuous local martingale under $\q$, by the Girsanov theorem. Note that the second term of $\tilde{B}_t$ represents a finite variation process, and contributes nothing to the quadratic variation, therefore
+\begin{equation*}
+    \iprod{\tilde{B},\tilde{B}}_t= \iprod{B,B}_t=t.
+\end{equation*}
+By the L\'{e}vy's characterization of Brownian motion, $\tilde B$ is a $\f_t$-Brownian motion under $\q$. Thus we're done.
+
+
+\begin{remark}
+    By the definition of our changed measure $\dd\q=\mathscr{E}(L_T) \dd \p$, we have $\p$ and $\q$ mutually absolute continuous, because $D_T=\mathscr{E}(L_T)\in (0,\infty)$ for all $\omega\in \Omega$.
+\end{remark}
+
+\subsection{Existence of Strong Solution}
+
+From now on, we fix our set-up as $(\Omega,\f,(\f_t)_{t\ge0}, \p, B)$, on which we are going to study the equation \ref{changed}. Here $B$ is a $\f_t$-Brownian motion. Define probability measure $\q$ as the last section does, and
+\begin{equation*}
+    \tilde{B}_t = B_t+\int_0^t h(s)\dd s.
+\end{equation*}
+Thus we have a new set-up $(\Omega,\f, (\f_t)_{t\ge0}, \q,\tilde{B})$. Since the weak existence and pathwise uniqueness for the equation \ref{original} holds, theorem \ref{ym} implies that there exists a function $F:C([0,T])\to C([0,T])$, such that $\tilde{X}=F(\tilde{B})$ is $\f_t$ adapted, and
+\begin{equation*}
+    \q-\text{a.s.} \quad\left\{
+    \begin{aligned}
+    & \tilde X_t=x_0+\int_0^t G(s,\tilde X_s)\dd\tilde B_s +\int_0^t b(s,\tilde X_s) \dd s,\quad \forall t\in[0,T],\\
+        &X(\omega) \text{ is continuous in } t.
+    \end{aligned}
+    \right.
+\end{equation*}
+Clearly if $\tilde{X}$ is $\q$-a.s. continuous in $t$, then it's also $\p$-a.s. continuous in $t$, because of the definition of absolute continuity. Now we want to deduce:
+\begin{align*}
+    &\q \text{-a.s.}\quad \tilde X_t=x_0+\int_0^t G(s,\tilde X_s)\dd\tilde B_s +\int_0^t b(s,\tilde X_s) \dd s,\quad\forall t\in[0,T]\\
+    \Longrightarrow\quad&\p \text{-a.s.} \quad \tilde X_t=x_0+\int_0^t G(s,\tilde X_s)\dd B_s +\int_0^t b(s,\tilde X_s) \dd s+\int_0^t G(s,\tilde X_s)h(s)\dd s,\quad\forall t\in[0,T].
+\end{align*}
+This seemingly correct result requires the stability of stochastic integration under change of measure. We will introduce a theorem from \cite{protter2013stochastic}(Theorem 2.14 therein)
+
+\begin{theorem}
+[Stability of Stochastic Integral under Change of Measure]Let $X$ be a semimartingale, and $H$ be a integrable process. If $\q \ll \p$, then $(H\cdot X)_{\q}$ is $\q$-indistinguishable from $(H\cdot X)_{\p}$. Here the notation $(H\cdot X)_{\p}$ denotes the stochastic integration of $H$ with respect to $X$, computed under $\p$. 
+\end{theorem}
+
+Apply this theorem $H_t=G(t, \tilde X_t)$ and $X_t=\tilde B_t$ to obtain that
+\begin{equation*}
+\p\text{(also $\q$ )}\text{-a.s.} \quad
+\left(\int_0^t G(s,\tilde X_s) \dd \tilde B_s\right)_{\q}=\left(\int_0^t G(s,\tilde X_s) \dd B_s+\int_0^t G(s,\tilde X_s) \dd s\right)_{\p}
+\end{equation*}
+
+On the other hand, the integral with respect to finite variation process is independent of the set-up, as it can be defined with pathwise Lebesgue-Stieltjes integral. Hence the last proposition is true, and $\tilde X_t$ is the strong solution of the equation \ref{changed}, on the set-up $(\Omega, \f, (\f_t)_{t\ge 0}, )$
+
+% We will prove this via dominated convergence theorem for stochastic integration (Ref. Proposition 5.8 in \cite{gall2016brownian}). 
+\begin{remark}
+    This theorem can be proved alternatively using the approximation of stochastic integration. See also in section 4.
+\end{remark}
+
+\subsection{Pathwise Uniqueness of the Transformed Equation}
+
+We continue with the notations defined above. We've proved the existence of strong solution under given set-up. Now it suffices to prove the pathwise uniqueness. 
+
+Fix the set-up $(\Omega,\f,(\f_t)_{t\ge0} ,\p)$. Assume that $X^1$ and $X^2$ both solves the equation \ref{changed}. Then similar argument shows that the on the set-up $(\Omega, \f,(\f_t)_{t\ge 0}, \q)$, both $X^1$ and $X^2$ solves the equation \ref{original}. By the pathwise uniqueness of the original equation, we have
+\begin{equation*}
+    \q-\text{a.s.}\quad X^1_t= X^2_t ,\; \forall t\in[0,T].
+\end{equation*}
+Since $\p$ and $\q$ are mutually absolutely continuous, we have
+\begin{equation*}
+    \p-\text{a.s.} \quad X^1_t=X^2_t ,\; \forall t\in [0,T].
+\end{equation*}
+Thus we're done. The equation \ref{changed} is exact. Moreover, theorem \ref{ym} implies that the equation \ref{changed} is weakly unique.
+
+\section{Appendix: Approximation of Stochastic Integral}
+
+We provide an alternative method to prove the following result
+\begin{equation*}
+\p\text{(also $\q$)-a.s.}\quad 
+\left(\int_0^t G(s,\tilde X_s)\dd\tilde B_s\right)_{\q}=\left(\int_0^t G(s,\tilde X_s)\dd B_s +\int_0^t G(s,\tilde X_s) \dd s\right)_{\p}. 
+\end{equation*}
+
+First introduce the dominated convergence theorem for the stochastic integral(Ref. \cite{gall2016brownian} Proposition 5.8).
+
+\begin{theorem}
+Let $X=M+V$ be the canonical decomposition of a semimartingale $X$(which could be different under different set-ups). Let $(H^n)$ and $H$ be locally bounded progressive processes, and $K$ be a nonnegative progressive process. Assume that a.s.
+\begin{enumerate}
+    \item $H^n_s\to H_s$, for every $s\in [0,t]$;
+    \item $|H^n_s|\le K_s$, for every $n\ge 1$ and $s\in [0,t]$;
+    \item $\int_0^t (K_s)^2\dd \iprod{M,M}_s<\infty$ and $\int_0^t K_s|\dd V_s|<\infty$.
+\end{enumerate}
+Then, 
+\begin{equation*}
+    \int_0^t H_s^n \dd X_s \xrightarrow[n\to \infty]{\text{prob.}}\int_0^t H_s \dd X_s
+\end{equation*} 
+\end{theorem}
+
+This convergence result enables us to approximate the stochastic integral like the Riemann integral case. Consider the refined partition sequence: $p_n:0=t_0<t_1<\dots<t_{k_n}=t$, $p_n\subset p_{n+1}$ and $\nm{p_n} \to 0$. Then the sequence
+\begin{equation*}
+    H^n_s:= G(t_{j-1},\tilde X_{t_{j-1}}), \quad \text{if } s \in [t_{j-1},t_j).
+\end{equation*}
+Since we assume $G$ to be bounded and continuous, and $X_t$ is a continuous semimartingale, all the conditions of the convergence theorem are true. Therefore, we have
+\begin{equation*}
+    \int_0^t H^n_s \dd \tilde B_s\xrightarrow[n\to \infty]{\q-\text{prob.}} \left(\int_0^t G(s,\tilde X_s) \dd \tilde{B}_s \right)_\q.
+\end{equation*}
+The convergence in probability under $\q$ implies $\q$-a.s. convergence along subsequence $n_i$. But on the other hand, we have
+\begin{equation*}
+    \int_0^t H^{n_i}_s \dd \tilde B_s\xrightarrow[i\to \infty]{\p-\text{prob.}} \left(\int_0^t G(s,\tilde X_s) \dd B_s+ \int_0^t G(s,\tilde X_s) \dd s \right)_\p.
+\end{equation*}
+By taking sub-subsequence we can find a $\p$-a.s. convergent subsequence. For the step process $H^n$, the definition of $\int H^n_s \dd \tilde B_s$ is independent of the measure. Then it must be true that
+\begin{equation*}
+  \p\text{(also $\q$)-a.s.} \quad  \left(\int_0^t G(s,\tilde X_s) \dd B_s+ \int_0^t G(s,\tilde X_s) \dd s \right)_\p=\left(\int_0^t G(s,\tilde X_s) \dd \tilde{B}_s \right)_\q.
+\end{equation*}
+
+
+\bibliography{mart}
+
+
+\end{document}
